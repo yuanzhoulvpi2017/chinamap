@@ -154,6 +154,7 @@ class DownloadChmap():
 
 
 if __name__ == '__main__':
+    # test
     chinamap_engine = DownloadChmap()
-    data = chinamap_engine.download_country(target='县区')
-    # data = chinamap_engine.download_province(province_name='甘肃省', target='县区')
+    # data = chinamap_engine.download_country(target='县区')
+    data = chinamap_engine.download_province(province_name='甘肃省', target='县区')
