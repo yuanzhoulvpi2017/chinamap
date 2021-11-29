@@ -14,7 +14,7 @@
 
 ## 数据来源
 
-本包查询到的数据全部来源于 阿里云的`DataV<http://datav.aliyun.com/portal/school/atlas/area_selector>`_
+本包查询到的数据全部来源于 阿里云的`DataV` http://datav.aliyun.com/portal/school/atlas/area_selector
 
 因此数据基本上和高德地图保持一致；
 

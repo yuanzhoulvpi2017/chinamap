@@ -1,0 +1,46 @@
+Metadata-Version: 1.1
+Name: getchinamap
+Version: 1.0.1
+Summary: get china map data from Amap
+Home-page: https://github.com/yuanzhoulvpi2017/chinamap
+Author: yuanzhoulvpi2017
+Author-email: 1582034172@qq.com
+License: BSD License
+Description: # 获得中国地图数据
+        
+        ## 目的
+        
+        本包主要是为了解决获得中国地图数据难的问题，这里提供一个python的解决方案。让大家用中国地图更加宽心、方便。
+        
+        ## 本包特点
+        
+        1. 简单；
+        2. 高效；
+        3. 准确（相对网络上的数据，中国地图数据更加准确）；
+        4. 完整（数据完整，包括中国各个区域；并且可以让用户下钻到县区级别）
+        
+        
+        ## 数据来源
+        
+        本包查询到的数据全部来源于 阿里云的`DataV<http://datav.aliyun.com/portal/school/atlas/area_selector>`_
+        
+        因此数据基本上和高德地图保持一致；
+        
+        
+        ## 使用声明
+        
+        1. 请合理使用地图数据；数据内容和本人无关；数据具体用途也和本人无关；
+        
+        
+        ## 使用方式
+        
+        https://github.com/yuanzhoulvpi2017/chinamap
+        
+Platform: all
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Natural Language :: Chinese (Simplified)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Software Development :: Libraries
