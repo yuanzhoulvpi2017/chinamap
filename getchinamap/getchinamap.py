@@ -49,6 +49,9 @@ class DownloadChmap():
         if base_data['adcode_third'] != '00':
             warnings.warn(message=f"$ 你输入的地点：{city_name} 可能不是一个 城市 $")
 
+        if city_name in ['东莞市', '中山市', '嘉峪关市']:
+            target = '边界'
+
         district_adcode = base_data['adcode']
         if target == city_targetlist[0]:
             finally_url = base_url + district_adcode
@@ -148,3 +151,9 @@ class DownloadChmap():
         gpd_data = self.download_country(target='省')
         gpd_data = gpd_data.loc[gpd_data['adcode'] == '100000_JD']
         return gpd_data
+
+
+if __name__ == '__main__':
+    chinamap_engine = DownloadChmap()
+    data = chinamap_engine.download_country(target='县区')
+    # data = chinamap_engine.download_province(province_name='甘肃省', target='县区')
