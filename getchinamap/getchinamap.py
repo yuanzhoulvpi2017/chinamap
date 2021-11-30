@@ -87,7 +87,7 @@ class DownloadChmap():
         elif province_name in ['海南省']:
             if target == province_targetlist[1]:
                 warnings.warn(
-                    message=f"你输入的省为：{province_name}, 属于中国2个特别行政区；输入的 target为: {target} ；将target 转换为: {province_targetlist[2]}")
+                    message=f"你输入的省为：{province_name}, 由于数据问题；输入的 target为: {target} ；将target 转换为: {province_targetlist[2]}")
                 target = '县区'
             return self.download_city(city_name=province_name, target=target)
 
