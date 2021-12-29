@@ -5,7 +5,7 @@ with open("README.rst", "r", encoding='utf-8') as f:
   long_description = f.read()
 
 setup(name='getchinamap',  # 包名
-      version='1.0.3',  # 版本号
+      version='1.0.4',  # 版本号
       description='get china map data from Amap',
       long_description=long_description,
       author='yuanzhoulvpi2017',
@@ -22,6 +22,7 @@ setup(name='getchinamap',  # 包名
           'Programming Language :: Python',
           'Programming Language :: Python :: 3.7',
           'Programming Language :: Python :: 3.8',
+          'Programming Language :: Python :: 3.9',
           'Topic :: Software Development :: Libraries'
       ],
       )

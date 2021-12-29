@@ -4,6 +4,7 @@ import warnings
 from tqdm import tqdm
 import gzip
 
+
 class DownloadChmap():
     def __init__(self):
         self.raw_data = pd.read_csv(
@@ -153,12 +154,33 @@ class DownloadChmap():
         gpd_data = gpd_data.loc[gpd_data['adcode'] == '100000_JD']
         return gpd_data
 
-    # @classmethod
-    # def download_world(cls):
-    #     with open("https://gitee.com/yuanzhoulvpi/amap_adcode/raw/datasets/world_for_china.gz", mode='rb') as fIn:
-    #         data = gpd.read_file(fIn.read().decode('utf-8'))
-    #
-    #     return data
+    @classmethod
+    def download_world(cls, filepath=None):
+        """
+        如果你是在中国, 不方便使用github，可以从我的gitee上下载数据,链接为：
+        https://gitee.com/yuanzhoulvpi/amap_adcode/tree/master/datasets
+        可以看到一个名为world_for_china.gz的文件，点击下载。
+        然后可以添加路径到filepath 参数上：
+        >>> data = DownloadChmap.download_world(filepath="xxxx/xxxx/xxx/world_for_china.gz")
+        >>> data
+        :param filepath:
+        :return:
+        """
+        if filepath is None:
+            msg = """
+            如果你是在中国, 不方便使用github，可以从我的gitee上下载数据,链接为：
+            https://gitee.com/yuanzhoulvpi/amap_adcode/tree/master/datasets
+            可以看到一个名为world_for_china.gz的文件，点击下载。
+            然后可以添加路径到filepath 参数上：
+            >>> data = DownloadChmap.download_world(filepath="xxxx/xxxx/xxx/world_for_china.gz")
+            >>> data
+            """
+            print(msg)
+
+        else:
+            with open(filepath, mode='rb') as fIn:
+                data = gpd.read_file(fIn.read().decode('utf-8'))
+            return data
 
 
 if __name__ == '__main__':
@@ -167,6 +189,5 @@ if __name__ == '__main__':
     # data = chinamap_engine.download_country(target='县区')
     data = chinamap_engine.download_province(province_name='甘肃省', target='县区')
     # data = chinamap_engine.download_world()
-    print(data)
-
-
+    # data = DownloadChmap.download_world(filepath="xxxx/xxxx/xxx/world_for_china.gz")
+    # print(data)
