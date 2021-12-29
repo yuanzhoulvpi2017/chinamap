@@ -2,6 +2,7 @@ import geopandas as gpd
 import pandas as pd
 import warnings
 from tqdm import tqdm
+import gzip
 
 class DownloadChmap():
     def __init__(self):
@@ -152,9 +153,20 @@ class DownloadChmap():
         gpd_data = gpd_data.loc[gpd_data['adcode'] == '100000_JD']
         return gpd_data
 
+    # @classmethod
+    # def download_world(cls):
+    #     with open("https://gitee.com/yuanzhoulvpi/amap_adcode/raw/datasets/world_for_china.gz", mode='rb') as fIn:
+    #         data = gpd.read_file(fIn.read().decode('utf-8'))
+    #
+    #     return data
+
 
 if __name__ == '__main__':
     # test
     chinamap_engine = DownloadChmap()
     # data = chinamap_engine.download_country(target='县区')
     data = chinamap_engine.download_province(province_name='甘肃省', target='县区')
+    # data = chinamap_engine.download_world()
+    print(data)
+
+
