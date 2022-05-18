@@ -32,11 +32,16 @@
 pip install getchinamap
 ```
 
+### 下载依赖数据
+1. 本仓库之前依靠的是阿里云发布的`AMap_adcode_citycode_20210406.csv`文件。这个文件被我经过修改，现在这个文件在这个仓库的`dataset`文件夹下。
+2. 需要吧上面文件`AMap_adcode_citycode_20210406.csv`下载到本地。
+
 ### 导入包并且初始化包
 ```python
 
 from getchinamap.getchinamap import DownloadChmap
-chinamap_engine = DownloadChmap()
+# 把上面的文件路径放到这里
+chinamap_engine = DownloadChmap(adcode_file="../datasets/AMap_adcode_citycode_20210406.csv")
 
 ```
 ### 获得县区级数据
