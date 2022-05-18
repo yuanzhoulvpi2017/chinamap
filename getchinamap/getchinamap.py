@@ -6,15 +6,35 @@ import gzip
 
 
 class DownloadChmap():
-    def __init__(self):
-        self.raw_data = pd.read_csv(
-            "https://gitee.com/yuanzhoulvpi/amap_adcode/raw/master/AMap_adcode_citycode_20210406.csv",
-            dtype={'中文名': str,
-                   'adcode': str,
-                   'citycode': str,
-                   'adcode_first': str,
-                   'adcode_second': str,
-                   'adcode_third': str})
+    def __init__(self, adcode_file):
+        try:
+            self.raw_data = pd.read_csv(
+                adcode_file,
+                dtype={'中文名': str,
+                       'adcode': str,
+                       'citycode': str,
+                       'adcode_first': str,
+                       'adcode_second': str,
+                       'adcode_third': str})
+        except Exception as e:
+            get_detail = """
+            AMap_adcode_citycode_20210406.csv 文件不存在, 你应该从
+            https://github.com/yuanzhoulvpi2017/chinamap/tree/master/datasets
+            下载 AMap_adcode_citycode_20210406.csv 文件.
+            然后保存这个文件，接下来这么初始化:
+            >>> chinamap_engine = DownloadChmap(adcode_file="xxxx/xxxx/xxx/AMap_adcode_citycode_20210406.csv")
+            
+            """
+            raise FileNotFoundError(get_detail)
+
+        # self.raw_data = pd.read_csv(
+        #     "https://gitee.com/yuanzhoulvpi/amap_adcode/raw/master/AMap_adcode_citycode_20210406.csv",
+        #     dtype={'中文名': str,
+        #            'adcode': str,
+        #            'citycode': str,
+        #            'adcode_first': str,
+        #            'adcode_second': str,
+        #            'adcode_third': str})
         self.base_url = "https://geo.datav.aliyun.com/areas_v3/bound/geojson?code="
 
     def download_district(self, district_name='寿县'):
@@ -76,7 +96,7 @@ class DownloadChmap():
         if province_name in ['北京市', '天津市', '上海市', '重庆市']:
             if target == province_targetlist[1]:
                 warnings.warn(
-                    message=f"你输入的省为：{province_name}, 属于中国4大直辖市；输入的 target为: {target} ；将target 转换为: {province_targetlist[2]}")
+                    message=f"你输入的省为：{province_name}, 属于中国4大直辖市；输入的 target为: {target} ；将target 转换为: {province_targetlist[1]}")
                 target = '县区'
             return self.download_city(city_name=province_name, target=target)
 
@@ -185,7 +205,7 @@ class DownloadChmap():
 
 if __name__ == '__main__':
     # test
-    chinamap_engine = DownloadChmap()
+    chinamap_engine = DownloadChmap(adcode_file="../datasets/AMap_adcode_citycode_20210406.csv")
     # data = chinamap_engine.download_country(target='县区')
     data = chinamap_engine.download_province(province_name='甘肃省', target='县区')
     # data = chinamap_engine.download_world()
