@@ -3,38 +3,23 @@ import pandas as pd
 import warnings
 from tqdm import tqdm
 import gzip
+from importlib_resources import files
 
 
 class DownloadChmap():
-    def __init__(self, adcode_file):
-        try:
-            self.raw_data = pd.read_csv(
-                adcode_file,
-                dtype={'中文名': str,
-                       'adcode': str,
-                       'citycode': str,
-                       'adcode_first': str,
-                       'adcode_second': str,
-                       'adcode_third': str})
-        except Exception as e:
-            get_detail = """
-            AMap_adcode_citycode_20210406.csv 文件不存在, 你应该从
-            https://github.com/yuanzhoulvpi2017/chinamap/tree/master/datasets
-            下载 AMap_adcode_citycode_20210406.csv 文件.
-            然后保存这个文件，接下来这么初始化:
-            >>> chinamap_engine = DownloadChmap(adcode_file="xxxx/xxxx/xxx/AMap_adcode_citycode_20210406.csv")
-            
-            """
-            raise FileNotFoundError(get_detail)
+    def __init__(self, adcode_file=None):
+        if adcode_file is None:
+            adcode_file = files('getchinamap').joinpath('datasets/AMap_adcode_citycode_20210406.csv').__str__()
 
-        # self.raw_data = pd.read_csv(
-        #     "https://gitee.com/yuanzhoulvpi/amap_adcode/raw/master/AMap_adcode_citycode_20210406.csv",
-        #     dtype={'中文名': str,
-        #            'adcode': str,
-        #            'citycode': str,
-        #            'adcode_first': str,
-        #            'adcode_second': str,
-        #            'adcode_third': str})
+        self.raw_data = pd.read_csv(
+            adcode_file,
+            dtype={'中文名': str,
+                   'adcode': str,
+                   'citycode': str,
+                   'adcode_first': str,
+                   'adcode_second': str,
+                   'adcode_third': str})
+
         self.base_url = "https://geo.datav.aliyun.com/areas_v3/bound/geojson?code="
 
     def download_district(self, district_name='寿县'):
@@ -143,7 +128,8 @@ class DownloadChmap():
                             (self.raw_data['adcode_second'] != '00'), :].copy().reset_index(drop=True)
 
                 gpd_data = pd.concat([self.download_city(city_name=i, target='县区') for i in
-                                      tqdm(temp_data['中文名'], desc=f'正在下载：{province_name} 的县区数据...')]).reset_index(
+                                      tqdm(temp_data['中文名'],
+                                           desc=f'正在下载：{province_name} 的县区数据...')]).reset_index(
                     drop=True)
 
                 return gpd_data
@@ -175,37 +161,18 @@ class DownloadChmap():
         return gpd_data
 
     @classmethod
-    def download_world(cls, filepath=None):
+    def download_world(cls):
         """
-        如果你是在中国, 不方便使用github，可以从我的gitee上下载数据,链接为：
-        https://gitee.com/yuanzhoulvpi/amap_adcode/tree/master/datasets
-        可以看到一个名为world_for_china.gz的文件，点击下载。
-        然后可以添加路径到filepath 参数上：
-        >>> data = DownloadChmap.download_world(filepath="xxxx/xxxx/xxx/world_for_china.gz")
-        >>> data
-        :param filepath:
-        :return:
+        获得准确的全球地图数据
         """
-        if filepath is None:
-            msg = """
-            如果你是在中国, 不方便使用github，可以从我的gitee上下载数据,链接为：
-            https://gitee.com/yuanzhoulvpi/amap_adcode/tree/master/datasets
-            可以看到一个名为world_for_china.gz的文件，点击下载。
-            然后可以添加路径到filepath 参数上：
-            >>> data = DownloadChmap.download_world(filepath="xxxx/xxxx/xxx/world_for_china.gz")
-            >>> data
-            """
-            print(msg)
-
-        else:
-            with open(filepath, mode='rb') as fIn:
-                data = gpd.read_file(fIn.read().decode('utf-8'))
-            return data
+        filepath = files('getchinamap').joinpath('datasets/world_for_china').__str__()
+        data = gpd.read_file(filepath)
+        return data
 
 
 if __name__ == '__main__':
     # test
-    chinamap_engine = DownloadChmap(adcode_file="../datasets/AMap_adcode_citycode_20210406.csv")
+    chinamap_engine = DownloadChmap()
     # data = chinamap_engine.download_country(target='县区')
     data = chinamap_engine.download_province(province_name='甘肃省', target='县区')
     # data = chinamap_engine.download_world()
